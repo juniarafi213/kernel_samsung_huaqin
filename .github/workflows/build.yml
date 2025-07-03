@@ -113,7 +113,8 @@ jobs:
           export KERNELSU="${{ github.event.inputs.KSU }}"
         fi
         
-        bash $(pwd)/build.sh `echo $BUILD_TARGET` --jobs $(nproc --all) `echo $DEFCONFIG`
+        make ARCH=arm64 O=out $DEFCONFIG
+        make ARCH=arm64 O=out -j$(nproc --all) V=1 2>&1 | tee build.log
 
         if [[ "$BUILD_TARGET" = "kernel" ]]; then
           if [[ "${{ github.event.inputs.KSU }}" = "true" ]]; then
@@ -204,3 +205,9 @@ jobs:
       with:
         name: LKM-${{ steps.buildKernel.outputs.buildDetails }}
         path: kernel_root/kernel_object/*
+
+    - name: Upload Full Build Log
+      uses: actions/upload-artifact@v4
+      with:
+        name: full_build_log
+        path: kernel_root/full_build.log
