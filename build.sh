@@ -26,16 +26,18 @@ CONFIG_SECTION_MISMATCH_WARN_ONLY=y
 ARCH=arm64
 KCFLAGS=-w
 "
+
+if [ "$IS_CI" = "false" ]; then
 export ARCH=arm64
-export CLANG_TRIPLE=aarch64-linux-gnu-
-# Compat vDSO
-export CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
-# Compatibility
-export CROSS_COMPILE_ARM32=$CROSS_COMPILE_COMPAT
 export LLVM=1
 export LLVM_IAS=1
-# end of default args
+export CROSS_COMPILE=
+export CROSS_COMPILE_COMPAT=
+export CROSS_COMPILE_ARM32=$CROSS_COMPILE_COMPAT
+export PATH=
+fi
 
+# end of default args
 strip() { # fmt: strip <module>
 	llvm-strip $@ --strip-unneeded
 }
