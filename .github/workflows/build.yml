@@ -4,7 +4,7 @@ on:
     inputs:
       BRANCH:
         description: Kernel branch
-        default: 'android-4.19-stable'
+        default: 'Exper-non'
         required: true
       BUILD_TARGET:
         description: 'Build target'
